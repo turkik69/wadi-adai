@@ -1,0 +1,7 @@
+// Insert this match block into the existing rules of the (default) database.
+// Keep all existing matches intact. A Firebase administrator creates the mirror documents.
+// This collection is solely for Storage authorization and contains no passwords.
+match /wadi_adai_storage_members/{uid} {
+  allow get: if request.auth != null && request.auth.uid == uid;
+  allow list, write: if false;
+}

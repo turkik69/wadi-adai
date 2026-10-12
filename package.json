@@ -1,6 +1,6 @@
 {
   "private": true,
   "type": "module",
-  "scripts": { "build": "node build-public.mjs", "dev": "npm run build && wrangler dev", "deploy": "npm run build && wrangler deploy", "check": "node --check worker.js && node --check app.js" },
+  "scripts": { "build": "node build-public.mjs", "dev": "npm run build && wrangler dev", "deploy": "npm run build && wrangler deploy", "check": "node --check worker.js && node --check app.js && node --test worker.test.mjs" },
   "devDependencies": { "wrangler": "4.45.0" }
 }

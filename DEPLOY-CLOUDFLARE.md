@@ -4,7 +4,7 @@
 
 ## إعداد أول مرة
 
-1. سجّل الدخول إلى Cloudflare Workers Free وشغّل `npm ci` أو `npm install` ثم `npx wrangler login`.
+1. سجّل الدخول إلى Cloudflare Workers Free وشغّل `npm install` ثم `npx wrangler login`.
 2. أنشئ D1 عبر `npx wrangler d1 create wadi-adai` وضع `database_id` الناتج في `wrangler.jsonc`.
 3. نفّذ `npx wrangler d1 execute wadi-adai --remote --file=schema.sql`.
 4. أدخل سر تشفير عشوائيًا طويلًا عبر `npx wrangler secret put AUTH_PEPPER`، ثم سر تهيئة مختلفًا عبر `npx wrangler secret put ADMIN_BOOTSTRAP_TOKEN`، واحتفظ به لنفسك مؤقتًا. لا تضعه في الملفات أو الدردشة.

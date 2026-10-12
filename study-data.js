@@ -1,4 +1,4 @@
-// النصوص والبيانات الوصفية من النسخة الاحتياطية بتاريخ 2026-10-12. الصور يعيد الفريق رفعها.
+// Original study text and recovered images, exported 2026-10-12.
 export const originalStudy = {
   "metadata": {
     "title": "إعداد دراسة لتطوير وإعادة تأهيل منطقة وادي عدي بولاية مطرح بمحافظة مسقط",
@@ -703,6 +703,8 @@ export const originalStudy = {
     "analysis-topic-intro": "/uploads/diag_analysis-topic-intro_1791789076266_pm9hij.jpg",
     "analysis-topic-regional": "/uploads/diag_analysis-topic-regional_1791781045949_xmemg0.jpg",
     "analysis-topic-roads": "/uploads/diag_analysis-topic-roads_1791781081884_7qf555.jpg",
-    "analysis-topic-urbanfabric": "/uploads/diag_analysis-topic-urbanfabric_1791781072710_zc93f9.jpg"
+    "analysis-topic-urbanfabric": "/uploads/diag_analysis-topic-urbanfabric_1791781072710_zc93f9.jpg",
+    "test_image_key": "",
+    "test_key": ""
   }
 };

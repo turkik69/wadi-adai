@@ -13,6 +13,12 @@ service cloud.firestore {
       allow create, update, delete: if isEditor()
         && section in ['proposals', 'recommendations', 'stations', 'analyses', 'roadmap', 'observations', 'gallery'];
     }
+    match /wadi_adai_v2_meta/{docId} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if isEditor() && docId == 'bootstrap';
+      allow update, delete: if false;
+    }
     match /wadi_adai_v2_members/{uid} {
       allow get: if request.auth != null && request.auth.uid == uid;
       allow list, write: if false;

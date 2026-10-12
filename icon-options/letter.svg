@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<rect width="512" height="512" rx="112" fill="#0A493A"/>
+<circle cx="256" cy="219" r="159" fill="#12614E" stroke="#D5B56C" stroke-width="14"/>
+<path d="M101 310 193 189l58 62 53-79 106 138" fill="none" stroke="#A6C7A5" stroke-width="22" stroke-linejoin="round"/>
+<text x="256" y="308" direction="rtl" text-anchor="middle" font-size="196" font-weight="bold" font-family="DejaVu Sans,Arial,sans-serif" fill="#FFFFFF">و</text>
+<path d="M151 343c63 24 105 21 155-7 28-16 48-18 66-15" fill="none" stroke="#83D4D9" stroke-width="18" stroke-linecap="round"/>
+<text x="256" y="433" direction="rtl" text-anchor="middle" font-size="53" font-weight="bold" font-family="DejaVu Sans,Arial,sans-serif" fill="#FFFFFF">وادي عدي</text>
+</svg>

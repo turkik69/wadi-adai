@@ -1,21 +1,17 @@
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    function isWadiEditor() {
-      return request.auth != null
-        && firestore.exists(/databases/(default)/documents/wadi_adai_storage_members/$(request.auth.uid))
-        && firestore.get(/databases/(default)/documents/wadi_adai_storage_members/$(request.auth.uid)).data.active == true
-        && firestore.get(/databases/(default)/documents/wadi_adai_storage_members/$(request.auth.uid)).data.role == 'editor';
-    }
-    match /wadi_adai_v2/{section}/{recordId}/{fileName} {
-      allow read: if true;
-      allow create: if isWadiEditor()
-        && section in ['proposals', 'recommendations', 'observations', 'gallery']
-        && request.resource.size <= 10 * 1024 * 1024
-        && request.resource.contentType.matches('image/.*');
-      allow update, delete: if false;
-    }
-    // If this bucket is shared, merge the match above into the existing Storage rules.
-    // Never deploy this whole file over rules serving other applications.
-  }
+// Merge this function and match inside the existing service firebase.storage
+// match /b/{bucket}/o scope. Preserve all rules for other apps.
+// Storage Rules can read ONLY Firestore (default), so mirror team UID membership there.
+function isWadiAdaiStorageEditor() {
+  return request.auth != null
+    && firestore.exists(/databases/(default)/documents/wadi_adai_storage_members/$(request.auth.uid))
+    && firestore.get(/databases/(default)/documents/wadi_adai_storage_members/$(request.auth.uid)).data.active == true
+    && firestore.get(/databases/(default)/documents/wadi_adai_storage_members/$(request.auth.uid)).data.role == 'editor';
+}
+match /wadi_adai_v2/{section}/{recordId}/{fileName} {
+  allow read: if true;
+  allow create: if isWadiAdaiStorageEditor()
+    && section in ['proposals', 'recommendations', 'observations', 'gallery']
+    && request.resource.size <= 10 * 1024 * 1024
+    && request.resource.contentType.matches('image/.*');
+  allow update, delete: if false;
 }

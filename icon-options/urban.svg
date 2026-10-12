@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<rect width="512" height="512" rx="112" fill="#F4F0E6"/>
+<rect x="54" y="54" width="404" height="404" rx="70" fill="#0B4535"/>
+<path d="M92 110h328M92 185h328M92 260h328M92 335h328M135 92v280M215 92v280M295 92v280M375 92v280" stroke="#D4B56D" stroke-width="11" opacity=".65"/>
+<path d="M74 287c71-101 129-76 190-32 62 46 97 56 174-30" fill="none" stroke="#8BDADE" stroke-width="45" stroke-linecap="round"/>
+<path d="M74 287c71-101 129-76 190-32 62 46 97 56 174-30" fill="none" stroke="#E0F8F6" stroke-width="7"/>
+<rect x="88" y="375" width="336" height="64" rx="20" fill="#073A2C"/>
+<text x="256" y="421" direction="rtl" text-anchor="middle" font-size="46" font-weight="bold" font-family="DejaVu Sans,Arial,sans-serif" fill="#FFFFFF">وادي عدي</text>
+</svg>

@@ -15,3 +15,7 @@
 @media(max-width:600px){.study-image-grid{grid-template-columns:1fr 1fr}.study-image-grid .study-photo{height:135px}}
 
 .draft-status{min-height:1.5em;color:#47684e;font-size:12px;margin:8px 0}
+
+
+.institution-logos{width:min(100%,540px);height:174px;background:#fff url('./assets/official-municipal-logos.jpg') center 37%/100% auto no-repeat;border-radius:14px;margin:0 0 20px;box-shadow:0 8px 28px #092f2615}
+@media(max-width:600px){.institution-logos{height:118px;margin-bottom:14px}}

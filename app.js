@@ -12,6 +12,8 @@ let activeFilter = "all";
 let pendingCollection = "proposals";
 let pendingRecordId = null;
 let toastTimer;
+let autosaveTimer;
+let autosavePromise = Promise.resolve();
 
 function escapeHTML(value = "") {
   return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
@@ -196,6 +198,8 @@ function bind() {
   $("#compare-slider").addEventListener("input", event => $(".compare-box").style.setProperty("--split", `${event.target.value}%`));
   $("#record-close").addEventListener("click", () => $("#record-dialog").close());
   $("#record-form").addEventListener("submit", submitRecord);
+  $("#record-form").addEventListener("input", scheduleAutosave);
+  $("#record-form").addEventListener("change", scheduleAutosave);
   document.addEventListener("click", async event => {
     const edit = event.target.closest("[data-edit]");
     if (edit) {
@@ -225,7 +229,9 @@ function exportBackup() {
 function openRecord(key, label, item = null) {
   if (!editor) return notify("تسجيل الدخول كعضو مفعل مطلوب لإضافة السجلات.");
   if (!cloud) return notify("المزامنة السحابية غير مهيأة بعد.");
+  clearTimeout(autosaveTimer);
   pendingCollection = key; pendingRecordId = item?.id ?? null;
+  $("#draft-status").textContent = "";
   $("#record-kicker").textContent = label;
   $("#record-title").textContent = `${item ? "تعديل" : "إضافة"} ${label}`;
   const form = $("#record-form"); form.reset();
@@ -243,12 +249,14 @@ function openRecord(key, label, item = null) {
   $("#record-dialog").showModal();
 }
 
-async function submitRecord(event) {
-  event.preventDefault(); if (!editor) return;
-  const data = new FormData(event.currentTarget);
+function formItem(form, key = pendingCollection, id = pendingRecordId) {
+  const data = new FormData(form);
+  const recordId = id || `${key}-${crypto.randomUUID()}`;
+  const existing = records[key].find(entry => String(entry.id) === String(recordId));
   const item = {
-    id: pendingRecordId || `${pendingCollection}-${Date.now()}`,
-    title: String(data.get("title")).trim(),
+    ...existing,
+    id: recordId,
+    title: String(data.get("title") || "").trim(),
     category: String(data.get("category") || "").trim(),
     location: String(data.get("location") || "").trim(),
     description: String(data.get("description") || "").trim(),
@@ -256,28 +264,59 @@ async function submitRecord(event) {
     challenge: String(data.get("challenge") || "").trim(),
     impact: String(data.get("impact") || "").trim(),
     stationId: String(data.get("stationId") || "").trim(),
-    caption: pendingCollection === "gallery" ? String(data.get("location") || "").trim() : "",
-    createdAt: new Date().toISOString()
+    createdAt: existing?.createdAt || new Date().toISOString()
   };
+  if (key === "gallery") item.caption = item.location;
+  if (key === "recommendations") item.text = item.description;
+  return item;
+}
+function upsertLocal(key, item) {
+  const existing = records[key].some(entry => String(entry.id) === String(item.id));
+  records[key] = existing ? records[key].map(entry => String(entry.id) === String(item.id) ? item : entry) : [...records[key], item];
+  render();
+}
+function scheduleAutosave() {
+  clearTimeout(autosaveTimer);
+  const form = $("#record-form");
+  if (!editor || !cloud || !form.elements.title.value.trim() || !form.elements.description.value.trim()) return;
+  $("#draft-status").textContent = "جارٍ الحفظ التلقائي…";
+  autosaveTimer = setTimeout(() => {
+    const key = pendingCollection;
+    const item = formItem(form, key);
+    pendingRecordId = item.id;
+    autosavePromise = writeRecord(key, item).then(() => {
+      upsertLocal(key, item);
+      $("#draft-status").textContent = "حُفظ النص تلقائيًا · الصور تُرفع عند الضغط على حفظ";
+    }).catch(error => {
+      console.error(error);
+      $("#draft-status").textContent = "تعذر الحفظ التلقائي؛ تحقق من الاتصال";
+    });
+  }, 900);
+}
+async function submitRecord(event) {
+  event.preventDefault(); if (!editor) return;
+  clearTimeout(autosaveTimer);
+  await autosavePromise;
+  const key = pendingCollection;
+  const item = formItem(event.currentTarget, key);
+  pendingRecordId = item.id;
   try {
     const files = [...event.currentTarget.elements.attachments.files];
     if (files.some(file => !file.type.startsWith("image/") || file.size > 10 * 1024 * 1024)) throw new Error("الصور فقط، حتى 10 ميجابايت لكل صورة");
     if (files.length) {
       const { storage, storageMod } = cloud;
-      item.attachments = await Promise.all(files.map(async file => {
-        const fileRef = storageMod.ref(storage, `wadi_adai_v2/${pendingCollection}/${item.id}/${crypto.randomUUID()}-${file.name}`);
+      const attachments = await Promise.all(files.map(async file => {
+        const fileRef = storageMod.ref(storage, `wadi_adai_v2/${key}/${item.id}/${crypto.randomUUID()}-${file.name}`);
         const uploaded = await storageMod.uploadBytes(fileRef, file);
         return { name: file.name, url: await storageMod.getDownloadURL(uploaded.ref), type: file.type };
       }));
+      item.attachments = [...(item.attachments || []), ...attachments];
     }
-    const existing = records[pendingCollection].find(entry => String(entry.id) === String(item.id));
-    if (existing?.attachments?.length) item.attachments = [...existing.attachments, ...(item.attachments || [])];
-    if (existing?.createdAt) item.createdAt = existing.createdAt;
-    if (pendingCollection === "recommendations") item.text = item.description;
-    await writeRecord(pendingCollection, item);
-    records[pendingCollection] = existing ? records[pendingCollection].map(entry => String(entry.id) === String(item.id) ? item : entry) : [...records[pendingCollection], item];
-    render(); $("#record-dialog").close(); event.currentTarget.reset(); pendingRecordId = null;
-    notify("حُفظ السجل سحابياً، وسيظهر مباشرة للمستخدمين المتصلين.");
+    await writeRecord(key, item);
+    upsertLocal(key, item);
+    $("#record-dialog").close(); event.currentTarget.reset(); pendingRecordId = null;
+    $("#draft-status").textContent = "";
+    notify("حُفظ السجل سحابيًا، وسيظهر مباشرة للمستخدمين المتصلين.");
   } catch (error) { console.error(error); notify("لم يُحفظ السجل. تحقق من اتصال Firebase وقواعد الوصول."); }
 }
 

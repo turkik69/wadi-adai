@@ -99,7 +99,7 @@ seed.recommendations = originalStudy.recommendations.map(r => ({
     r.horizon.startsWith('متوسط') ? 'متوسط المدى' : 'استراتيجي',
   text: r.description, attachments: []
 }));
-seed.gallery = originalStudy.gallery.map(g => ({ ...g, caption: [g.description, g.location, g.date].filter(Boolean).join(' · '), attachments: [] }));
+seed.gallery = originalStudy.gallery.map(g => ({ ...g, caption: [g.description, g.location, g.date].filter(Boolean).join(' · '), attachments: g.imageUrl ? [{ url: g.imageUrl, name: g.title, type: 'image/jpeg' }] : [] }));
 seed.maps = originalStudy.maps;
 seed.problemSolutionCases = originalStudy.problemSolutionCases;
 seed.team = originalStudy.team;

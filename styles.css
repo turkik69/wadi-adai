@@ -17,7 +17,12 @@
 .draft-status{min-height:1.5em;color:#47684e;font-size:12px;margin:8px 0}
 
 
-.institution-logos{width:min(100%,310px);height:145px;background:#fff url('./assets/official-municipal-logos.jpg') center 24%/100% auto no-repeat;border-radius:14px;margin:0 0 20px auto;box-shadow:0 8px 28px #092f2615}
-@media(max-width:600px){.institution-logos{width:min(100%,248px);height:118px;margin-bottom:14px}}
+.institution-banner{display:flex;align-items:center;gap:22px;padding:14px max(calc((100vw - 1280px)/2),24px);background:#fffdf8;border-bottom:1px solid #e8e4d9;direction:rtl}
+.institution-logos{display:block;width:205px;height:auto;flex:none}
+.institution-heading{display:grid;gap:1px;text-align:right;line-height:1.6;color:#315345}
+.institution-heading strong{font-size:15px;color:var(--forest)}
+.institution-heading span{font-size:12px}
+.site-footer .footer-institution{margin:0 0 9px;line-height:1.9}
+@media(max-width:600px){.institution-banner{gap:10px;padding:10px 14px}.institution-logos{width:min(42vw,150px)}.institution-heading strong{font-size:12px}.institution-heading span{font-size:10px;line-height:1.5}.site-footer .footer-institution{padding:0 8px}}
 
 .wide-dialog {max-width:min(760px,95vw);width:760px;max-height:90vh;overflow:auto;padding:2rem} .permissions{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin:1rem 0}.inline-check{display:inline-flex!important;align-items:center;gap:.4rem}.inline-check input{width:auto!important}.member-row{border-top:1px solid #d9dfd8;padding:1rem 0;display:grid;gap:.5rem}.member-row small{color:#536459}.member-row select{max-width:220px} .member-row .button{justify-self:start} @media(max-width:600px){.wide-dialog{padding:1.1rem}}

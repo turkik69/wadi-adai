@@ -10,7 +10,7 @@
   <link rel="icon" type="image/svg+xml" href="icon-options/letter.svg">
   <link rel="apple-touch-icon" href="icons/wadi-adai-180.png">
   <meta name="description" content="منصة دراسة تطوير وإعادة تأهيل منطقة وادي عدي بولاية مطرح بمحافظة مسقط">
-  <title>تطوير وإعادة تأهيل وادي عدي</title>
+  <title>وادي عدي | بلدية مسقط - المديرية العامة للشؤون الفنية - دائرة التصميم المركزي</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -39,10 +39,14 @@
       <button class="nav-item" data-view="recommendations">04 · التوصيات</button>
     </div>
   </nav>
+  <div class="institution-banner" aria-label="الجهة المشرفة على المنصة">
+    <img class="institution-logos" src="./assets/official-municipal-logos-transparent.png" alt="شعار بلدية مسقط ومحافظة مسقط" width="2035" height="773">
+    <div class="institution-heading"><strong>بلدية مسقط</strong><span>المديرية العامة للشؤون الفنية</span><span>دائرة التصميم المركزي</span></div>
+  </div>
   <main id="app-main">
     <section class="view active" id="view-home">
       <section class="hero">
-        <div class="hero-copy"><div class="institution-logos" role="img" aria-label="شعار بلدية مسقط ومحافظة مسقط"></div>
+        <div class="hero-copy">
           <span class="eyebrow">دراسة تخطيطية · سبتمبر 2026</span>
           <h1>نُحيي المكان<br><em>ليحيا الإنسان</em></h1>
           <p>رؤية تخطيطية ومعمارية استراتيجية لتحويل وادي عدي إلى بيئة حضرية مستدامة، نابضة بالحياة، وآمنة من المخاطر.</p>
@@ -99,7 +103,7 @@
       <div class="recommendation-list" id="recommendations"></div>
     </section>
   </main>
-  <footer class="site-footer"><div><span class="brand-mark small">و</span><strong>منصة وادي عدي</strong></div><p>سلطنة عُمان · محافظة مسقط · ولاية مطرح</p><small>© 2026 · منصة مستقلة لدراسة التخطيط والتجديد الحضري</small></footer>
+  <footer class="site-footer"><div><span class="brand-mark small">و</span><strong>منصة وادي عدي</strong></div><p>سلطنة عُمان</p><p class="footer-institution">بلدية مسقط · المديرية العامة للشؤون الفنية · دائرة التصميم المركزي</p><small>© 2026 · دراسة تطوير وإعادة تأهيل وادي عدي</small></footer>
   <dialog id="auth-dialog" class="dialog"><form id="login-form"><button type="button" class="dialog-close" id="login-close" aria-label="إغلاق">×</button><span class="eyebrow">فريق الدراسة</span><h2>دخول فريق العمل</h2><p>أدخل اسم المستخدم والرمز الخاص بك.</p><label>اسم المستخدم<input name="username" autocomplete="username" required></label><label>الرمز السري<input name="pin" type="password" autocomplete="current-password" required></label><p class="form-error" id="login-error"></p><button class="button button-dark full-width" type="submit">دخول آمن</button><small>الزوار يمكنهم الاطلاع على محتوى المنصة دون تسجيل الدخول.</small></form></dialog>
   <dialog id="record-dialog" class="dialog"><form id="record-form"><button type="button" class="dialog-close" id="record-close" aria-label="إغلاق">×</button><span class="eyebrow" id="record-kicker">إضافة</span><h2 id="record-title">سجل جديد</h2><label>العنوان<input name="title" required maxlength="180"></label><label>التصنيف<input name="category" maxlength="100"></label><label>النطاق أو الموقع<input name="location" maxlength="160"></label><label>الأولوية<input name="priority" maxlength="40" placeholder="عاجل / متوسط المدى / استراتيجي"></label><label>المحطة الميدانية<select name="stationId"><option value="">اختر المحطة عند إضافة ملاحظة</option></select></label><label>التفاصيل<textarea name="description" rows="5" required></textarea></label><label>التحدي الحالي<textarea name="challenge" rows="3"></textarea></label><label>الأثر المتوقع<textarea name="impact" rows="3"></textarea></label><label>صور ومستندات (10 ميجابايت للملف)<input name="attachments" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" multiple></label><p class="draft-status" id="draft-status" aria-live="polite"></p><button class="button button-dark full-width" type="submit">حفظ السجل</button></form></dialog>
   <dialog id="change-pin-dialog" class="dialog"><form id="change-pin-form"><button type="button" class="dialog-close" id="change-pin-close" aria-label="إغلاق">×</button><h2>تغيير الرمز السري</h2><p>عند أول دخول يلزم تغيير الرمز 1234 قبل السماح بالتعديل.</p><label>الرمز الحالي<input name="oldPin" type="password" autocomplete="current-password" required></label><label>الرمز الجديد (8 أحرف على الأقل)<input name="newPin" type="password" minlength="8" autocomplete="new-password" required></label><label>تأكيد الرمز<input name="repeatPin" type="password" minlength="8" autocomplete="new-password" required></label><p class="form-error" id="change-pin-error"></p><button class="button button-dark full-width">تغيير الرمز</button></form></dialog>

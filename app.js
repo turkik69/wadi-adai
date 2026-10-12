@@ -41,6 +41,7 @@ function render() {
   $("#metrics").innerHTML = records.metrics.map((m, i) => `<article class="metric-card"><span class="eyebrow">مؤشر 0${i + 1}</span><div class="metric-value">${escapeHTML(m.value)}</div><h3>${escapeHTML(m.title)}</h3><p>${escapeHTML(m.detail)}</p></article>`).join("");
   $("#objectives").innerHTML = records.objectives.map(item => `<li>${escapeHTML(item)}</li>`).join("");
   $("#stages").innerHTML = records.stages.map((s, i) => `<article class="stage-card"><span class="stage-no">0${i + 1}</span><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.text)}</p><time>${escapeHTML(s.date)}</time></article>`).join("");
+  $("#study-team").innerHTML = (records.team || []).map(member => `<article class="analysis-card"><h3>${escapeHTML(member.name)}</h3><p>${escapeHTML(member.role || "")}</p><small>${escapeHTML(member.discipline || member.institution || "")}</small></article>`).join("");
   $("#stations").innerHTML = records.stations.map(s => {
     const observations = (records.observations || []).filter(o => String(o.stationId) === String(s.id));
     const detail = [...(s.observations || []), ...(s.criticalIssues || [])].map(line => `<li>${escapeHTML(line)}</li>`).join("");

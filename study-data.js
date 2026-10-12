@@ -130,7 +130,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "رصد تلاصق الكتل السكنية وانعدام الفراغات البينية المفتوحة.",
         "fieldNotes": "أولوية قصوى لفتح فجوات عمرانية مدروسة واستثمار ناتج إحلال المباني المتهالكة لإنشاء حدائق جيبية وساحات تهوية.",
-        "photoUrl": ""
+        "photoUrl": "./assets/6667730b5f731865.jpg"
       },
       {
         "id": "station-02",
@@ -149,7 +149,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "توثيق الشوارع الفرعية بعرض 5م والسكك 2-3م واصطفاف المركبات المزدوج.",
         "fieldNotes": "إعادة هيكلة شبكة الطرق وفق مفهوم السوبر بلوك وتحديد مسارات موحدة لسيارات الخدمات والطوارئ.",
-        "photoUrl": ""
+        "photoUrl": "./assets/bee42384ab1c2156.jpg"
       },
       {
         "id": "station-03",
@@ -171,7 +171,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "معاينة الواجهات القديمة المتآكلة، كوابل التكييف المتدلية، وصخور السفوح القريبة.",
         "fieldNotes": "إطلاق صندوق ترميم الواجهات، دفن الكابلات في قنوات أرضية، وتنفيذ جدار حماية استنادي صخري.",
-        "photoUrl": ""
+        "photoUrl": "./assets/1490d0720f5d8edc.jpg"
       },
       {
         "id": "station-04",
@@ -191,7 +191,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "صور للرصيف المنحدر أمام المحلات وغياب الأرصفة الآمنة ووحدات التكييف المعلقة.",
         "fieldNotes": "تسوية مناسيب مواقف السيارات بالكامل على مستوى واحد مع مسار الدراجات والشارع، وتوسيع الأرصفة بإنترلوك نفاذ للماء.",
-        "photoUrl": ""
+        "photoUrl": "./assets/556d5f5654eda4ff.jpg"
       },
       {
         "id": "station-05",
@@ -210,7 +210,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "رصد السلاسل الجبلية المحيطة وانعدام التشجير وآثار جريان السيول السطحية.",
         "fieldNotes": "إنشاء قناة تصريف خرسانية مسلحة مفتوحة على طول قاعدة الجبل وتثبيت التربة بالجدار الاستنادي.",
-        "photoUrl": ""
+        "photoUrl": "./assets/f0257c325fd30ff8.jpg"
       },
       {
         "id": "station-06",
@@ -227,7 +227,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "معاينة سلامة بنية الجسر الخرساني والمقاطع الصخرية لحماية مجرى الوادي.",
         "fieldNotes": "تدعيم ضفاف الوادي بتقنية الـ Riprap الصخري وتحويل مجرى الوادي الجاف إلى منتزه طولي بيئي.",
-        "photoUrl": ""
+        "photoUrl": "./assets/61c6fee28811871f.jpg"
       },
       {
         "id": "station-07",
@@ -244,7 +244,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "توثيق مدخل وادي عدي الوحيد، تكسر الأرصفة، ومناطق العتمة المرورية.",
         "fieldNotes": "توسعة ورصف المسار بمسارين لكل اتجاه، وإنشاء Box Culvert خرساني مسلح أسفل الشارع، وتحديث شبكة الإنارة الذكية.",
-        "photoUrl": ""
+        "photoUrl": "./assets/d05b66e5a97afc45.jpg"
       },
       {
         "id": "station-08",
@@ -261,7 +261,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "صور لملعب وادي عدي الترابي الواقع عند السفح الجبلي وافتقاره للتجهيزات.",
         "fieldNotes": "إعادة تأهيل الملعب بالتعشيب والإنارة والحواجز الشبكية، وإنشاء ممشى مظلل يربطه بقلب الحي.",
-        "photoUrl": ""
+        "photoUrl": "./assets/62df0e0b95cb962f.jpg"
       },
       {
         "id": "station-09",
@@ -278,7 +278,7 @@ export const originalStudy = {
         ],
         "photographicEvidenceNote": "توثيق الكرفانات المهجورة بسياجها المغلق وتشويهها للمشهد العام.",
         "fieldNotes": "إزالة الكرفانات فوراً واستثمار المساحة كساحة مجتمعية أو مواقف سيارات منظمة.",
-        "photoUrl": ""
+        "photoUrl": "./assets/b072aab923ddbf38.jpg"
       }
     ]
   },
@@ -294,13 +294,13 @@ export const originalStudy = {
       "expectedImpact": "إنهاء الاختناق المروري تماماً، وتأمين تدفق وانسيابية المركبات في كافة الظروف الجوية والمنخفضات دون أي انقطاع.",
       "currentStatusDescription": "مدخل ومخرج وحيد ضيق بمسار متداخل ومعرض للغرق.",
       "planUrl": "",
-      "proposedRenderUrl": "",
+      "proposedRenderUrl": "./assets/04c293a4489c8b91.jpg",
       "updatedAt": "2026-10-12T07:10:52.489Z",
-      "currentPhotoUrl": "",
+      "currentPhotoUrl": "./assets/6667730b5f731865.jpg",
       "additionalPhotos": [
-        "",
-        "",
-        "",
+        "./assets/4ddc35df2ee7d89f.jpg",
+        "./assets/a621e24078be3607.jpg",
+        "./assets/7962db669681a751.jpg",
         "/uploads/prop_int-01_extra_1791789051351_1791789051715_0ocs42.jpg"
       ]
     },
@@ -314,10 +314,10 @@ export const originalStudy = {
       "proposedIntervention": "إنشاء حلقة حركة رئيسية واضحة حول وداخل المنطقة (Mobility Loop) تربط الكتلتين الشرقية والغربية بالمداخل الرئيسية، ومحاكاة تجربة \"Superblocks\" (برشلونة) بتوطين حركة السيارات في الطرق المحيطة الرئيسية، وتحويل الشوارع الداخلية إلى \"حارات هادئة وباردة\" آمنة للأطفال وكبار السن، وتخصيص السكك الفرعية الضيقة للمشاة والدراجات الخفيفة بحجر إنترلوك مختلف اللون، مع إزالة عدد محدود جداً من المنشآت المهجورة أو المتدهورة لتحقيق منفعة تخطيطية كبرى.",
       "expectedImpact": "تأمين بيئة هادئة وباردة وآمنة للأسر، وتخفيف الضغط المروري الداخلي بأكثر من 65%، وتأمين وصول مركبات الإسعاف والطوارئ.",
       "currentStatusDescription": "أزقة وشوارع ضيقة تعاني من الوقوف المزدوج والعشوائي واختناق الحركة.",
-      "proposedRenderUrl": "",
+      "proposedRenderUrl": "./assets/dabdf2b656893498.jpg",
       "planUrl": "",
       "updatedAt": "2026-10-12T06:49:48.745Z",
-      "currentPhotoUrl": "",
+      "currentPhotoUrl": "./assets/6667730b5f731865.jpg",
       "additionalPhotos": [],
       "lastTest": "2026-10-11T15:36:13.337Z"
     },
@@ -332,8 +332,8 @@ export const originalStudy = {
       "expectedImpact": "تسهيل حركة المشاة وكبار السن، توحيد المشهد البصري، وتسريب مياه الأمطار إلى التربة وتخفيف الحمل على شبكات التصريف.",
       "currentStatusDescription": "رصيف مرتفع ومنحدر ومواقف عشوائية متداخلة مع حركة المشاة.",
       "planUrl": "",
-      "proposedRenderUrl": "",
-      "currentPhotoUrl": "",
+      "proposedRenderUrl": "./assets/828b0fcc86a78ec4.jpg",
+      "currentPhotoUrl": "./assets/6667730b5f731865.jpg",
       "additionalPhotos": [],
       "updatedAt": "2026-10-12T06:49:53.218Z"
     },
@@ -575,7 +575,7 @@ export const originalStudy = {
       "sectionId": "baseline",
       "location": "الأحياء السكنية الداخلية - وادي عدي",
       "date": "29.07.2026",
-      "imageUrl": ""
+      "imageUrl": "./assets/901aaf721341a498.jpg"
     },
     {
       "id": "gal-02",
@@ -585,7 +585,7 @@ export const originalStudy = {
       "sectionId": "baseline",
       "location": "المسارات الفرعية الداخلية",
       "date": "29.07.2026",
-      "imageUrl": ""
+      "imageUrl": "./assets/bee42384ab1c2156.jpg"
     },
     {
       "id": "gal-03",
@@ -595,7 +595,7 @@ export const originalStudy = {
       "sectionId": "baseline",
       "location": "الواجهات السكنية القديمة",
       "date": "29.07.2026",
-      "imageUrl": ""
+      "imageUrl": "./assets/d05b66e5a97afc45.jpg"
     },
     {
       "id": "gal-04",
@@ -605,7 +605,7 @@ export const originalStudy = {
       "sectionId": "baseline",
       "location": "الشريط التجاري المركزي",
       "date": "29.07.2026",
-      "imageUrl": ""
+      "imageUrl": "./assets/ca4a64cc6d1f6f1c.jpg"
     },
     {
       "id": "gal-05",
@@ -615,7 +615,7 @@ export const originalStudy = {
       "sectionId": "baseline",
       "location": "السفوح الجبلية الشرقية والجنوبية",
       "date": "29.07.2026",
-      "imageUrl": ""
+      "imageUrl": "./assets/1490d0720f5d8edc.jpg"
     },
     {
       "id": "gal-06",
@@ -625,7 +625,7 @@ export const originalStudy = {
       "sectionId": "baseline",
       "location": "الطرف الجنوبي الغربي",
       "date": "29.07.2026",
-      "imageUrl": ""
+      "imageUrl": "./assets/62df0e0b95cb962f.jpg"
     },
     {
       "id": "gal-07",
@@ -703,8 +703,6 @@ export const originalStudy = {
     "analysis-topic-intro": "/uploads/diag_analysis-topic-intro_1791789076266_pm9hij.jpg",
     "analysis-topic-regional": "/uploads/diag_analysis-topic-regional_1791781045949_xmemg0.jpg",
     "analysis-topic-roads": "/uploads/diag_analysis-topic-roads_1791781081884_7qf555.jpg",
-    "analysis-topic-urbanfabric": "/uploads/diag_analysis-topic-urbanfabric_1791781072710_zc93f9.jpg",
-    "test_image_key": "",
-    "test_key": ""
+    "analysis-topic-urbanfabric": "/uploads/diag_analysis-topic-urbanfabric_1791781072710_zc93f9.jpg"
   }
 };

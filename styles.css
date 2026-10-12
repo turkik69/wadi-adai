@@ -17,7 +17,7 @@
 .draft-status{min-height:1.5em;color:#47684e;font-size:12px;margin:8px 0}
 
 
-.institution-logos{width:min(100%,540px);height:174px;background:#fff url('./assets/official-municipal-logos.jpg') center 37%/100% auto no-repeat;border-radius:14px;margin:0 0 20px;box-shadow:0 8px 28px #092f2615}
-@media(max-width:600px){.institution-logos{height:118px;margin-bottom:14px}}
+.institution-logos{width:min(100%,310px);height:145px;background:#fff url('./assets/official-municipal-logos.jpg') center 24%/100% auto no-repeat;border-radius:14px;margin:0 0 20px auto;box-shadow:0 8px 28px #092f2615}
+@media(max-width:600px){.institution-logos{width:min(100%,248px);height:118px;margin-bottom:14px}}
 
 .wide-dialog {max-width:min(760px,95vw);width:760px;max-height:90vh;overflow:auto;padding:2rem} .permissions{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin:1rem 0}.inline-check{display:inline-flex!important;align-items:center;gap:.4rem}.inline-check input{width:auto!important}.member-row{border-top:1px solid #d9dfd8;padding:1rem 0;display:grid;gap:.5rem}.member-row small{color:#536459}.member-row select{max-width:220px} .member-row .button{justify-self:start} @media(max-width:600px){.wide-dialog{padding:1.1rem}}

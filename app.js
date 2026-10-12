@@ -22,6 +22,19 @@ function notify(message) {
 }
 function recordId(item, prefix = "item") { return String(item.id ?? item.chapter ?? `${prefix}-${crypto.randomUUID()}`).replace(/[^a-zA-Z0-9_-]/g, "-"); }
 
+function studyImage(url, label) {
+  if (!url) return "";
+  return `<img class="study-photo" src="${escapeHTML(url)}" alt="${escapeHTML(label)}" loading="lazy">`;
+}
+function proposalImages(item) {
+  const additional = (item.additionalPhotos || []).filter(Boolean);
+  if (!item.currentPhotoUrl && !item.proposedRenderUrl && !additional.length) return "";
+  return `<div class="study-image-grid">
+    ${item.currentPhotoUrl ? `<figure>${studyImage(item.currentPhotoUrl, item.title + " · الوضع القائم")}<figcaption>الوضع القائم</figcaption></figure>` : ""}
+    ${item.proposedRenderUrl ? `<figure>${studyImage(item.proposedRenderUrl, item.title + " · المقترح")}<figcaption>التصور المقترح</figcaption></figure>` : ""}
+    ${additional.map((url, i) => `<figure>${studyImage(url, item.title + " · صورة إضافية " + (i + 1))}<figcaption>صورة داعمة ${i + 1}</figcaption></figure>`).join("")}
+  </div>`;
+}
 function render() {
   $("#metrics").innerHTML = records.metrics.map((m, i) => `<article class="metric-card"><span class="eyebrow">مؤشر 0${i + 1}</span><div class="metric-value">${escapeHTML(m.value)}</div><h3>${escapeHTML(m.title)}</h3><p>${escapeHTML(m.detail)}</p></article>`).join("");
   $("#objectives").innerHTML = records.objectives.map(item => `<li>${escapeHTML(item)}</li>`).join("");
@@ -29,10 +42,10 @@ function render() {
   $("#stations").innerHTML = records.stations.map(s => {
     const observations = (records.observations || []).filter(o => String(o.stationId) === String(s.id));
     const detail = [...(s.observations || []), ...(s.criticalIssues || [])].map(line => `<li>${escapeHTML(line)}</li>`).join("");
-    return `<article class="station-card"><div class="station-head"><span class="station-index">محطة رصد ${String(s.stationNumber || s.id).padStart(2, "0")}</span><span class="live-dot"></span></div><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.finding)}</p><div class="station-counts"><span>${escapeHTML(s.notes)} ملاحظات رصد</span><span>${escapeHTML(s.issues)} مشكلات حرجة</span></div>${detail ? `<details><summary>تفاصيل الرصد والتحديات</summary><ul>${detail}</ul><p>${escapeHTML(s.fieldNotes || "")}</p></details>` : ""}${observations.map(o => `<div class="observation"><strong>${escapeHTML(o.title)}</strong><p>${escapeHTML(o.description)}</p>${attachmentLinks(o)}${editor ? `<button class="icon-button" data-delete="observations:${escapeHTML(o.id)}">حذف الملاحظة</button>` : ""}</div>`).join("")}</article>`;
+    return `<article class="station-card"><div class="station-head"><span class="station-index">محطة رصد ${String(s.stationNumber || s.id).padStart(2, "0")}</span><span class="live-dot"></span></div><h3>${escapeHTML(s.title)}</h3>${studyImage(s.photoUrl, s.title)}<p>${escapeHTML(s.finding)}</p><div class="station-counts"><span>${escapeHTML(s.notes)} ملاحظات رصد</span><span>${escapeHTML(s.issues)} مشكلات حرجة</span></div>${detail ? `<details><summary>تفاصيل الرصد والتحديات</summary><ul>${detail}</ul><p>${escapeHTML(s.fieldNotes || "")}</p></details>` : ""}${observations.map(o => `<div class="observation"><strong>${escapeHTML(o.title)}</strong><p>${escapeHTML(o.description)}</p>${attachmentLinks(o)}${editor ? `<button class="icon-button" data-delete="observations:${escapeHTML(o.id)}">حذف الملاحظة</button>` : ""}</div>`).join("")}</article>`;
   }).join("");
   $("#analyses").innerHTML = records.analyses.map(a => `<article class="analysis-card"><span class="chapter">${escapeHTML(a.chapter)} · فصل تحليلي</span><h3>${escapeHTML(a.title)}</h3><p>${escapeHTML(a.detail)}</p></article>`).join("");
-  $("#proposals").innerHTML = records.proposals.map(p => `<article class="proposal-card"><span class="category">${escapeHTML(p.category || "مقترح تطويري")}</span><span class="station-index"> · البند ${escapeHTML(p.id)}</span><h3>${escapeHTML(p.title)}</h3><div class="location">${escapeHTML(p.location || "نطاق الدراسة")}</div><p>${escapeHTML(p.description || "")}</p>${p.challenge ? `<details><summary>التحدي والأثر المتوقع</summary><p><b>التحدي:</b> ${escapeHTML(p.challenge)}</p><p><b>الأثر:</b> ${escapeHTML(p.impact || "")}</p></details>` : ""}${attachmentLinks(p)}${editor ? `<div class="editor-actions"><button class="icon-button" data-edit="proposals:${escapeHTML(p.id)}">تعديل</button><button class="icon-button" data-delete="proposals:${escapeHTML(p.id)}">حذف</button></div>` : ""}</article>`).join("");
+  $("#proposals").innerHTML = records.proposals.map(p => `<article class="proposal-card"><span class="category">${escapeHTML(p.category || "مقترح تطويري")}</span><span class="station-index"> · البند ${escapeHTML(p.id)}</span><h3>${escapeHTML(p.title)}</h3><div class="location">${escapeHTML(p.location || "نطاق الدراسة")}</div><p>${escapeHTML(p.description || "")}</p>${proposalImages(p)}${p.challenge ? `<details><summary>التحدي والأثر المتوقع</summary><p><b>التحدي:</b> ${escapeHTML(p.challenge)}</p><p><b>الأثر:</b> ${escapeHTML(p.impact || "")}</p></details>` : ""}${attachmentLinks(p)}${editor ? `<div class="editor-actions"><button class="icon-button" data-edit="proposals:${escapeHTML(p.id)}">تعديل</button><button class="icon-button" data-delete="proposals:${escapeHTML(p.id)}">حذف</button></div>` : ""}</article>`).join("");
   $("#gallery").innerHTML = (records.gallery || []).map(item => {
     const image = item.attachments?.find(file => file.type?.startsWith("image/"));
     const imageMarkup = image ? `<img src="${escapeHTML(image.url)}" alt="${escapeHTML(item.title)}" loading="lazy">` : `<div class="gallery-visual ${escapeHTML(item.style || "visual-grid")}" role="img" aria-label="تصور توضيحي: ${escapeHTML(item.title)}"></div>`;

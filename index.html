@@ -4,6 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#073a2c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="وادي عدي">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icon-options/letter.svg">
+  <link rel="apple-touch-icon" href="icons/wadi-adai-180.png">
   <meta name="description" content="منصة دراسة تطوير وإعادة تأهيل منطقة وادي عدي بولاية مطرح بمحافظة مسقط">
   <title>تطوير وإعادة تأهيل وادي عدي</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,5 +105,6 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="firebase-config.js"></script>
   <script type="module" src="app.js"></script>
+  <script>if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));</script>
 </body>
 </html>

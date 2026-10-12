@@ -13,3 +13,5 @@
 .study-image-grid figcaption{text-align:center;color:#6c756f;font-size:11px;padding:5px}
 .station-card .study-photo{object-fit:contain;background:#f2f3ef}
 @media(max-width:600px){.study-image-grid{grid-template-columns:1fr 1fr}.study-image-grid .study-photo{height:135px}}
+
+.draft-status{min-height:1.5em;color:#47684e;font-size:12px;margin:8px 0}

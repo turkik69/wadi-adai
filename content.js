@@ -1,4 +1,6 @@
-export const seed = {
+import { originalStudy } from './study-data.js';
+
+const seed = {
   meta: {
     title: "تطوير وإعادة تأهيل منطقة وادي عدي",
     subtitle: "دراسة التخطيط والتجديد الحضري",
@@ -79,3 +81,28 @@ export const seed = {
     { title: "دفن البنية التحتية والتحول الحضري", period: "2029–2031 · استراتيجي", items: ["نقل الكوابل إلى شبكات أرضية", "اكتمال شبكة السوبر بلوك والممرات", "الحدائق الجيبية والري الذكي", "الرقابة الذكية والربط الحضري"] }
   ]
 };
+
+
+// Keep the original exported study's full text fields available in originalStudy.
+seed.metrics = originalStudy.overviewStats.map(m => ({ title: m.label, value: m.value, detail: m.subtext }));
+seed.stages = originalStudy.phases.map(p => ({ date: p.timeline, title: p.title, text: p.description }));
+seed.stations = originalStudy.fieldVisitReport.stations.map(s => ({
+  ...s, title: s.name, finding: s.locationDesc, notes: s.observations?.length || 0,
+  issues: s.criticalIssues?.length || 0
+}));
+seed.proposals = originalStudy.interventions.map(p => ({
+  ...p, description: p.proposedIntervention, challenge: p.problemAddressed,
+  impact: p.expectedImpact, attachments: []
+}));
+seed.recommendations = originalStudy.recommendations.map(r => ({
+  ...r, priority: r.horizon.startsWith('عاجل') ? 'عاجل' :
+    r.horizon.startsWith('متوسط') ? 'متوسط المدى' : 'استراتيجي',
+  text: r.description, attachments: []
+}));
+seed.gallery = originalStudy.gallery.map(g => ({ ...g, caption: [g.description, g.location, g.date].filter(Boolean).join(' · '), attachments: [] }));
+seed.maps = originalStudy.maps;
+seed.problemSolutionCases = originalStudy.problemSolutionCases;
+seed.team = originalStudy.team;
+seed.metadata = originalStudy.metadata;
+seed.fieldVisitReport = originalStudy.fieldVisitReport;
+export { seed, originalStudy };

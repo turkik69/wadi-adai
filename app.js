@@ -29,7 +29,7 @@ function render() {
   $("#stations").innerHTML = records.stations.map(s => {
     const observations = (records.observations || []).filter(o => String(o.stationId) === String(s.id));
     const detail = [...(s.observations || []), ...(s.criticalIssues || [])].map(line => `<li>${escapeHTML(line)}</li>`).join("");
-    return `<article class="station-card"><div class="station-head"><span class="station-index">محطة رصد ${String(s.id).padStart(2, "0")}</span><span class="live-dot"></span></div><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.finding)}</p><div class="station-counts"><span>${escapeHTML(s.notes)} ملاحظات رصد</span><span>${escapeHTML(s.issues)} مشكلات حرجة</span></div>${detail ? `<details><summary>تفاصيل الرصد والتحديات</summary><ul>${detail}</ul><p>${escapeHTML(s.fieldNotes || "")}</p></details>` : ""}${observations.map(o => `<div class="observation"><strong>${escapeHTML(o.title)}</strong><p>${escapeHTML(o.description)}</p>${attachmentLinks(o)}${editor ? `<button class="icon-button" data-delete="observations:${escapeHTML(o.id)}">حذف الملاحظة</button>` : ""}</div>`).join("")}</article>`;
+    return `<article class="station-card"><div class="station-head"><span class="station-index">محطة رصد ${String(s.stationNumber || s.id).padStart(2, "0")}</span><span class="live-dot"></span></div><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.finding)}</p><div class="station-counts"><span>${escapeHTML(s.notes)} ملاحظات رصد</span><span>${escapeHTML(s.issues)} مشكلات حرجة</span></div>${detail ? `<details><summary>تفاصيل الرصد والتحديات</summary><ul>${detail}</ul><p>${escapeHTML(s.fieldNotes || "")}</p></details>` : ""}${observations.map(o => `<div class="observation"><strong>${escapeHTML(o.title)}</strong><p>${escapeHTML(o.description)}</p>${attachmentLinks(o)}${editor ? `<button class="icon-button" data-delete="observations:${escapeHTML(o.id)}">حذف الملاحظة</button>` : ""}</div>`).join("")}</article>`;
   }).join("");
   $("#analyses").innerHTML = records.analyses.map(a => `<article class="analysis-card"><span class="chapter">${escapeHTML(a.chapter)} · فصل تحليلي</span><h3>${escapeHTML(a.title)}</h3><p>${escapeHTML(a.detail)}</p></article>`).join("");
   $("#proposals").innerHTML = records.proposals.map(p => `<article class="proposal-card"><span class="category">${escapeHTML(p.category || "مقترح تطويري")}</span><span class="station-index"> · البند ${escapeHTML(p.id)}</span><h3>${escapeHTML(p.title)}</h3><div class="location">${escapeHTML(p.location || "نطاق الدراسة")}</div><p>${escapeHTML(p.description || "")}</p>${p.challenge ? `<details><summary>التحدي والأثر المتوقع</summary><p><b>التحدي:</b> ${escapeHTML(p.challenge)}</p><p><b>الأثر:</b> ${escapeHTML(p.impact || "")}</p></details>` : ""}${attachmentLinks(p)}${editor ? `<div class="editor-actions"><button class="icon-button" data-edit="proposals:${escapeHTML(p.id)}">تعديل</button><button class="icon-button" data-delete="proposals:${escapeHTML(p.id)}">حذف</button></div>` : ""}</article>`).join("");
@@ -44,7 +44,7 @@ function render() {
   $("#source-maps").innerHTML = (records.maps || []).map(m => `<article class="analysis-card"><span class="chapter">${escapeHTML(m.category)}</span><h3>${escapeHTML(m.title)}</h3><p>${escapeHTML(m.description)}</p><small>${escapeHTML(m.scale || "")}</small></article>`).join("");
   $("#source-cases").innerHTML = (records.problemSolutionCases || []).map(c => `<article class="proposal-card"><h3>${escapeHTML(c.title)}</h3><p>${escapeHTML(c.location)}</p><details><summary>المشكلة والتحليل والحل</summary><p><b>الوضع القائم:</b> ${escapeHTML(c.currentStatus)}</p><p><b>المشكلة:</b> ${escapeHTML(c.problem)}</p><p><b>التحليل:</b> ${escapeHTML(c.analysis)}</p><p><b>الفرصة:</b> ${escapeHTML(c.opportunity)}</p><p><b>الحل المقترح:</b> ${escapeHTML(c.proposedSolution)}</p><p><b>الأثر:</b> ${escapeHTML(c.expectedImpact)}</p></details></article>`).join("");
   const stationSelect = $("#record-form [name=stationId]");
-  stationSelect.innerHTML = `<option value="">اختر المحطة عند إضافة ملاحظة</option>${records.stations.map(s => `<option value="${escapeHTML(s.id)}">محطة ${String(s.id).padStart(2, "0")} · ${escapeHTML(s.title)}</option>`).join("")}`;
+  stationSelect.innerHTML = `<option value="">اختر المحطة عند إضافة ملاحظة</option>${records.stations.map(s => `<option value="${escapeHTML(s.id)}">محطة ${String(s.stationNumber || s.id).padStart(2, "0")} · ${escapeHTML(s.title)}</option>`).join("")}`;
   $$(".editor-only").forEach(el => el.classList.toggle("hidden", !editor));
   $("#login-open").classList.toggle("hidden", Boolean(editor)); $("#logout").classList.toggle("hidden", !editor);
   $("#role-label").textContent = editor ? `فريق العمل · ${editor.displayName || editor.email}` : "زائر · اطلاع فقط";
@@ -106,7 +106,10 @@ async function initCloud() {
           else await authMod.signOut(auth);
         } catch { await authMod.signOut(auth); }
       }
-      if (editor) await seedEmptyCollections();
+      if (editor) {
+        try { await seedEmptyCollections(); }
+        catch (error) { console.error(error); notify("تعذر تجهيز بيانات الدراسة في Firestore؛ تحقق من القواعد."); }
+      }
       render();
     });
   } catch (error) {

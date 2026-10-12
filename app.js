@@ -7,6 +7,7 @@ const records = structuredClone(seed);
 let cloud = null;
 let editor = null;
 let stopListeners = [];
+const loadedCollections = new Set();
 let activeFilter = "all";
 let pendingCollection = "proposals";
 let pendingRecordId = null;
@@ -27,7 +28,8 @@ function render() {
   $("#stages").innerHTML = records.stages.map((s, i) => `<article class="stage-card"><span class="stage-no">0${i + 1}</span><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.text)}</p><time>${escapeHTML(s.date)}</time></article>`).join("");
   $("#stations").innerHTML = records.stations.map(s => {
     const observations = (records.observations || []).filter(o => String(o.stationId) === String(s.id));
-    return `<article class="station-card"><div class="station-head"><span class="station-index">محطة رصد ${String(s.id).padStart(2, "0")}</span><span class="live-dot"></span></div><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.finding)}</p><div class="station-counts"><span>${escapeHTML(s.notes)} ملاحظات رصد</span><span>${escapeHTML(s.issues)} مشكلات حرجة</span></div>${observations.map(o => `<div class="observation"><strong>${escapeHTML(o.title)}</strong><p>${escapeHTML(o.description)}</p>${attachmentLinks(o)}${editor ? `<button class="icon-button" data-delete="observations:${escapeHTML(o.id)}">حذف الملاحظة</button>` : ""}</div>`).join("")}</article>`;
+    const detail = [...(s.observations || []), ...(s.criticalIssues || [])].map(line => `<li>${escapeHTML(line)}</li>`).join("");
+    return `<article class="station-card"><div class="station-head"><span class="station-index">محطة رصد ${String(s.id).padStart(2, "0")}</span><span class="live-dot"></span></div><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.finding)}</p><div class="station-counts"><span>${escapeHTML(s.notes)} ملاحظات رصد</span><span>${escapeHTML(s.issues)} مشكلات حرجة</span></div>${detail ? `<details><summary>تفاصيل الرصد والتحديات</summary><ul>${detail}</ul><p>${escapeHTML(s.fieldNotes || "")}</p></details>` : ""}${observations.map(o => `<div class="observation"><strong>${escapeHTML(o.title)}</strong><p>${escapeHTML(o.description)}</p>${attachmentLinks(o)}${editor ? `<button class="icon-button" data-delete="observations:${escapeHTML(o.id)}">حذف الملاحظة</button>` : ""}</div>`).join("")}</article>`;
   }).join("");
   $("#analyses").innerHTML = records.analyses.map(a => `<article class="analysis-card"><span class="chapter">${escapeHTML(a.chapter)} · فصل تحليلي</span><h3>${escapeHTML(a.title)}</h3><p>${escapeHTML(a.detail)}</p></article>`).join("");
   $("#proposals").innerHTML = records.proposals.map(p => `<article class="proposal-card"><span class="category">${escapeHTML(p.category || "مقترح تطويري")}</span><span class="station-index"> · البند ${escapeHTML(p.id)}</span><h3>${escapeHTML(p.title)}</h3><div class="location">${escapeHTML(p.location || "نطاق الدراسة")}</div><p>${escapeHTML(p.description || "")}</p>${p.challenge ? `<details><summary>التحدي والأثر المتوقع</summary><p><b>التحدي:</b> ${escapeHTML(p.challenge)}</p><p><b>الأثر:</b> ${escapeHTML(p.impact || "")}</p></details>` : ""}${attachmentLinks(p)}${editor ? `<div class="editor-actions"><button class="icon-button" data-edit="proposals:${escapeHTML(p.id)}">تعديل</button><button class="icon-button" data-delete="proposals:${escapeHTML(p.id)}">حذف</button></div>` : ""}</article>`).join("");
@@ -39,6 +41,8 @@ function render() {
   $("#roadmap").innerHTML = records.roadmap.map(r => `<article class="roadmap-card"><span class="period">${escapeHTML(r.period)}</span><h3>${escapeHTML(r.title)}</h3><ul>${r.items.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul></article>`).join("");
   const recs = records.recommendations.filter(r => activeFilter === "all" || r.priority === activeFilter);
   $("#recommendations").innerHTML = recs.map(r => `<article class="recommendation-card"><div><span class="priority" data-level="${escapeHTML(r.priority)}">${escapeHTML(r.priority)}</span><div class="station-index">البند ${escapeHTML(r.id)}</div></div><div><h3>${escapeHTML(r.title)}</h3><p>${escapeHTML(r.text || r.description || "")}</p>${attachmentLinks(r)}${editor ? `<button class="icon-button" data-edit="recommendations:${escapeHTML(r.id)}">تعديل</button> <button class="icon-button" data-delete="recommendations:${escapeHTML(r.id)}">حذف</button>` : ""}</div></article>`).join("");
+  $("#source-maps").innerHTML = (records.maps || []).map(m => `<article class="analysis-card"><span class="chapter">${escapeHTML(m.category)}</span><h3>${escapeHTML(m.title)}</h3><p>${escapeHTML(m.description)}</p><small>${escapeHTML(m.scale || "")}</small></article>`).join("");
+  $("#source-cases").innerHTML = (records.problemSolutionCases || []).map(c => `<article class="proposal-card"><h3>${escapeHTML(c.title)}</h3><p>${escapeHTML(c.location)}</p><details><summary>المشكلة والتحليل والحل</summary><p><b>الوضع القائم:</b> ${escapeHTML(c.currentStatus)}</p><p><b>المشكلة:</b> ${escapeHTML(c.problem)}</p><p><b>التحليل:</b> ${escapeHTML(c.analysis)}</p><p><b>الفرصة:</b> ${escapeHTML(c.opportunity)}</p><p><b>الحل المقترح:</b> ${escapeHTML(c.proposedSolution)}</p><p><b>الأثر:</b> ${escapeHTML(c.expectedImpact)}</p></details></article>`).join("");
   const stationSelect = $("#record-form [name=stationId]");
   stationSelect.innerHTML = `<option value="">اختر المحطة عند إضافة ملاحظة</option>${records.stations.map(s => `<option value="${escapeHTML(s.id)}">محطة ${String(s.id).padStart(2, "0")} · ${escapeHTML(s.title)}</option>`).join("")}`;
   $$(".editor-only").forEach(el => el.classList.toggle("hidden", !editor));
@@ -59,7 +63,8 @@ function setView(name) {
 }
 
 function applyCollection(key, docs) {
-  if (docs.length) records[key] = docs.map(d => d.data);
+  if (docs.length) { records[key] = docs.map(d => d.data); loadedCollections.add(key); }
+  else if (loadedCollections.has(key)) records[key] = [];
   render();
 }
 
@@ -87,7 +92,6 @@ async function initCloud() {
     collectionKeys.forEach(key => {
       const ref = storeMod.collection(db, "wadi_adai_v2", key, "items");
       const stop = storeMod.onSnapshot(ref, snap => {
-        if (snap.empty) return;
         applyCollection(key, snap.docs.map(doc => ({ id: doc.id, data: doc.data() })));
       }, err => notify(`تعذر قراءة ${key}: تحقق من قواعد Firestore`));
       stopListeners.push(stop);
@@ -115,6 +119,8 @@ async function initCloud() {
 async function seedEmptyCollections() {
   const seedKeys = ["proposals", "recommendations", "stations", "analyses", "roadmap", "gallery"];
   const { db, storeMod } = cloud;
+  const marker = storeMod.doc(db, "wadi_adai_v2_meta", "bootstrap");
+  if ((await storeMod.getDoc(marker)).exists()) return;
   for (const key of seedKeys) {
     const ref = storeMod.collection(db, "wadi_adai_v2", key, "items");
     const snapshot = await storeMod.getDocs(ref);
@@ -126,6 +132,7 @@ async function seedEmptyCollections() {
     }
     await batch.commit();
   }
+  await storeMod.setDoc(marker, { version: 1, createdAt: storeMod.serverTimestamp() });
 }
 
 async function writeRecord(collectionKey, item) {
@@ -238,6 +245,7 @@ async function submitRecord(event) {
   };
   try {
     const files = [...event.currentTarget.elements.attachments.files];
+    if (files.some(file => !file.type.startsWith("image/") || file.size > 10 * 1024 * 1024)) throw new Error("الصور فقط، حتى 10 ميجابايت لكل صورة");
     if (files.length) {
       const { storage, storageMod } = cloud;
       item.attachments = await Promise.all(files.map(async file => {
@@ -247,7 +255,8 @@ async function submitRecord(event) {
       }));
     }
     const existing = records[pendingCollection].find(entry => String(entry.id) === String(item.id));
-    if (existing?.attachments?.length && !item.attachments) item.attachments = existing.attachments;
+    if (existing?.attachments?.length) item.attachments = [...existing.attachments, ...(item.attachments || [])];
+    if (existing?.createdAt) item.createdAt = existing.createdAt;
     if (pendingCollection === "recommendations") item.text = item.description;
     await writeRecord(pendingCollection, item);
     records[pendingCollection] = existing ? records[pendingCollection].map(entry => String(entry.id) === String(item.id) ? item : entry) : [...records[pendingCollection], item];
